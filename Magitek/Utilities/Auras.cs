@@ -211,6 +211,9 @@ namespace Magitek.Utilities
             ReadytoGouge = 1844,
             Reassembled = 851,
             NascentChaos = 1897,
+            NascentGlint = 1858,
+            StemTheFlow = 2679,
+            StemTheTide = 2680,
             RoyalGuard = 1833,
             DarkMissionary = 1894,
             Delirium = 1972,
@@ -293,6 +296,7 @@ namespace Magitek.Utilities
             DraconianFire = 1863,
             PowerSurge = 2720,
             ChaoticSpring = 2719,
+            ChaosThrust = 118,
             LanceCharge = 1864
             ;
 
