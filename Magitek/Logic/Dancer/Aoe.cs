@@ -3,6 +3,7 @@ using ff14bot.Managers;
 using Magitek.Extensions;
 using Magitek.Models.Dancer;
 using Magitek.Utilities;
+using Magitek.Utilities.Managers;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -42,6 +43,8 @@ namespace Magitek.Logic.Dancer
 
             if (Core.Me.CurrentTarget.Distance(Core.Me) > Spells.FanDanceIV.Range) return false;
 
+            if (!OGCDManager.CanWeave(Spells.FanDanceIV) && DancerSettings.Instance.EnableWeaving) return false;
+
             return await Spells.FanDanceIV.Cast(Core.Me.CurrentTarget);
         }
 
@@ -52,6 +55,8 @@ namespace Magitek.Logic.Dancer
             if (Core.Me.ClassLevel < Spells.FanDance3.LevelAcquired) return false;
 
             if (Core.Me.HasAura(Auras.StandardStep) || Core.Me.HasAura(Auras.TechnicalStep)) return false;
+
+            if (!OGCDManager.CanWeave(Spells.FanDance3) && DancerSettings.Instance.EnableWeaving) return false;
 
             return await Spells.FanDance3.Cast(Core.Me.CurrentTarget);
         }
@@ -67,6 +72,8 @@ namespace Magitek.Logic.Dancer
             if (Combat.Enemies.Count(r => r.Distance(Core.Me) <= 5 + r.CombatReach) < DancerSettings.Instance.FanDanceTwoEnemies) return false;
 
             if (ActionResourceManager.Dancer.FourFoldFeathers < 4 && !Core.Me.HasAura(Auras.Devilment) && Core.Me.ClassLevel >= 62) return false;
+
+            if (!OGCDManager.CanWeave(Spells.FanDance2)) return false;
 
             return await Spells.FanDance2.Cast(Core.Me);
         }

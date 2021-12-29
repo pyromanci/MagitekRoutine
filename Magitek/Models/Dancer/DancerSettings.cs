@@ -18,6 +18,10 @@ namespace Magitek.Models.Dancer
         public bool UseExpermentalChecks { get; set; }
 
         [Setting]
+        [DefaultValue(false)]
+        public bool EnableWeaving { get; set; }
+
+        [Setting]
         [DefaultValue(true)]
         public bool UseDevilment { get; set; }
 

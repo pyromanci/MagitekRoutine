@@ -3,6 +3,7 @@ using ff14bot.Managers;
 using Magitek.Extensions;
 using Magitek.Models.Dancer;
 using Magitek.Utilities;
+using Magitek.Utilities.Managers;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -23,6 +24,8 @@ namespace Magitek.Logic.Dancer
                 if (Core.Me.CurrentTarget.Distance(Core.Me) > Spells.FanDance.Range) return false;
                 if (!GameSettingsManager.FaceTargetOnAction && !Core.Me.CurrentTarget.InView()) return false;
             }
+
+            if (!OGCDManager.CanWeave(Spells.FanDance) && DancerSettings.Instance.EnableWeaving) return false;
 
             return await Spells.FanDance.Cast(Core.Me.CurrentTarget);
         }

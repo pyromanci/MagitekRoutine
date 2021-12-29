@@ -6,6 +6,7 @@ using Magitek.Enumerations;
 using Magitek.Extensions;
 using Magitek.Models.Dancer;
 using Magitek.Utilities;
+using Magitek.Utilities.Managers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,10 +28,16 @@ namespace Magitek.Logic.Dancer
             if (Core.Me.HasAura(Auras.StandardStep) || Core.Me.HasAura(Auras.TechnicalStep))
                 return false;
 
+            if (!OGCDManager.CanWeave(Spells.Devilment) && DancerSettings.Instance.EnableWeaving) 
+                return false;
+
             if (DancerSettings.Instance.DontDotIfCurrentTargetIsDyingSoon && Core.Me.CurrentTarget.CombatTimeLeft() <= DancerSettings.Instance.DontDotIfCurrentTargetIsDyingWithinXSeconds)
                 return false;
 
             if (DancerSettings.Instance.DevilmentWithFlourish && ActionManager.HasSpell(Spells.Flourish.Id) && Spells.Flourish.Cooldown < TimeSpan.FromSeconds(52))
+                return false;
+
+            if (!OGCDManager.CanWeave(Spells.Devilment))
                 return false;
 
             return await Spells.Devilment.Cast(Core.Me);
@@ -47,10 +54,16 @@ namespace Magitek.Logic.Dancer
             if (Core.Me.HasAura(Auras.StandardStep) || Core.Me.HasAura(Auras.TechnicalStep))
                 return false;
 
+            if (!OGCDManager.CanWeave(Spells.Devilment) && DancerSettings.Instance.EnableWeaving) 
+                return false;
+
             if (DancerSettings.Instance.DevilmentWithTechnicalStep && ActionManager.HasSpell(Spells.TechnicalStep.Id) && Spells.TechnicalStep.Cooldown > TimeSpan.FromMilliseconds(1000))
                 return false;
 
             if (DancerSettings.Instance.DevilmentWithTechnicalStep && !Core.Me.HasAura(Auras.StandardFinish))
+                return false;
+
+            if (!OGCDManager.CanWeave(Spells.Devilment))
                 return false;
 
             return await Spells.Devilment.Cast(Core.Me);
@@ -62,6 +75,9 @@ namespace Magitek.Logic.Dancer
                 return false;
 
             if (Core.Me.HasAura(Auras.StandardStep) || Core.Me.HasAura(Auras.TechnicalStep))
+                return false;
+
+            if (!OGCDManager.CanWeave(Spells.CuringWaltz) && DancerSettings.Instance.EnableWeaving)
                 return false;
 
             var cureTargets = PartyManager.AllMembers.Count(x => x.IsValid && x.BattleCharacter.CurrentHealthPercent < DancerSettings.Instance.CuringWaltzHP && x.BattleCharacter.Distance(Core.Me) < 5);
@@ -89,6 +105,9 @@ namespace Magitek.Logic.Dancer
                 return false;
 
             if (ActionResourceManager.Dancer.Esprit > 80) 
+                return false;
+
+            if (!OGCDManager.CanWeave(Spells.Improvisation))
                 return false;
 
             return await Spells.Improvisation.Cast(Core.Me);
@@ -122,6 +141,9 @@ namespace Magitek.Logic.Dancer
                 return false;
 
             if (Core.Me.HasAura(Auras.StandardStep) || Core.Me.HasAura(Auras.TechnicalStep))
+                return false;
+
+            if (!OGCDManager.CanWeave(Spells.ClosedPosition) && DancerSettings.Instance.EnableWeaving) 
                 return false;
 
             if (DancerSettings.Instance.DancePartnerChocobo && ChocoboManager.Summoned)

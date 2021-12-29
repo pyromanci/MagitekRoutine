@@ -61,13 +61,13 @@ namespace Magitek.Rotations
         public static async Task<bool> Heal()
         {
 
-
             if (await Casting.TrackSpellCast()) return true;
             await Casting.CheckForSuccessfulCast();
 
             if (await GambitLogic.Gambit()) return true;
             return false;
         }
+
         public static Task<bool> CombatBuff()
         {
             return Task.FromResult(false);
